@@ -29,35 +29,51 @@ function onLogIn() {
     divLogIn.style.display = "block";
 }
 
+function ChangeBorderColor(id, status = 1) {
+    var tag = document.getElementById(id);
+    if (status == 1) {
+        tag.style.border = "4px solid #0099FF";
+    } else {
+        tag.style.border = "2px solid #C0C0C0";
+    }
+}
+
 function CheckEmptyInput(id) {
     var tag = document.getElementById(id);
-    if (tag.value == "")
-        return true;
-    return false;
-}
-
-function CheckName(id_name) {
-    var name = document.getElementById(id_name);
-    if (name.value.length <= 30)
-        return true;
-    return false;
-}
-
-function CheckMail(id_mail) {
-    var mail = document.getElementById(id_mail);
-    var regex = /^([\w\.])+@([a-zA-Z0-9\-])+\.([a-zA-Z]{2,4})(\.[a-zA-Z]{2,4})?$/;
-    if (mail.value.match(regex)) {
+    if (tag.value == "") {
+        tag.style.border = "1px solid red";
         return true;
     }
     return false;
 }
 
-function CheckAge(id_age) {
+function CheckIncorrectName(id_name) {
+    var name = document.getElementById(id_name);
+    if (name.value.length > 30) {
+        name.style.border = "1px solid red";
+        return true;
+    }
+    return false;
+}
+
+function CheckIncorrectMail(id_mail) {
+    var mail = document.getElementById(id_mail);
+    var regex = /^([\w\.])+@([a-zA-Z0-9\-])+\.([a-zA-Z]{2,4})(\.[a-zA-Z]{2,4})?$/;
+    if (mail.value.match(regex) == false || mail.value == "") {
+        mail.style.border = "1px solid red";
+        return true;
+    }
+    return false;
+}
+
+function CheckIncorrectAge(id_age) {
     var tagage = document.getElementById(id_age);
     age = tagage.value;
-    if (age == "" || isNaN(age) || parseInt(age) < 18 || parseInt(age) > 40)
-        return false;
-    return true;
+    if (age == "" || isNaN(age) || parseInt(age) < 18 || parseInt(age) > 40) {
+        tagage.style.border = "1px solid red";
+        return true;
+    }
+    return false;
 }
 
 function CheckSignUp() {
@@ -66,15 +82,15 @@ function CheckSignUp() {
     notification.innerHTML = "";
     notification.style.display = "block";
 
-    if (CheckEmptyInput("inp_name1") || !CheckName("inp_name1")) {
+    if (CheckEmptyInput("inp_name1") || CheckIncorrectName("inp_name1")) {
         notification.innerHTML += "Tên không được bỏ trống và không quá 30 ký tự<br>";
     }
     if (CheckEmptyInput("inp_password1"))
         notification.innerHTML += "Mật khẩu không được bỏ trống<br>";
-    if (!CheckMail("inp_email")) {
+    if (CheckIncorrectMail("inp_email")) {
         notification.innerHTML += "Mail không hợp lệ <br>";
     }
-    if (!CheckAge("inp_age")) {
+    if (CheckIncorrectAge("inp_age")) {
         notification.innerHTML += "Tuổi phải là số, lớn hơn 17 và nhỏ hơn 41<br>";
     }
     if (CheckEmptyInput("dropdown")) {
@@ -94,7 +110,7 @@ function CheckLogIn() {
     notification.innerHTML = "";
     notification.style.display = "block";
 
-    if (CheckEmptyInput("inp_name2") || !CheckName("inp_name2")) {
+    if (CheckEmptyInput("inp_name2") || CheckIncorrectName("inp_name2")) {
         notification.innerHTML += "Tên không được bỏ trống và không quá 30 ký tự<br>";
     }
     if (CheckEmptyInput("inp_password2"))
